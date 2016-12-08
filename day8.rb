@@ -197,3 +197,5 @@ commands.each do |command|
 end
 
 p @lightboard.flatten.count(1)
+
+# Part 2
