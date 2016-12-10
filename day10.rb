@@ -232,36 +232,47 @@ bot 72 gives low to bot 9 and high to bot 77"
 
 @instructions = input.split("\n")
 @bots = []
+@outputs = []
 
 def setup
 	@instructions.sort_by! { |inst| [inst.split(" ")[0], inst.split(" ")[1].to_i] }.each do |instruction|
 		@bots.push([]) if instruction.match(/^bot/)
+		@outputs[instruction.match(/output (\d*)/)[1].to_i] = [] if instruction.match(/output (\d*)/)
 		@bots[instruction.match(/bot (\d*)/)[1].to_i].push(instruction.split(" ")[1].to_i) if instruction.match(/^value/)
-		# ((bots[matcher[2].to_i] ||= []) << matcher[1].to_i) if matcher
 	end
 end
 
+# Part 1
 def find_bot
 	@bots.each_with_index do |bot,ind|
 		if bot.include?(61) && bot.include?(17)
-			return ind
-		else
-			if bot.length == 2
-				bot.sort!
-				inst = @instructions.find { |i| Regexp.new("bot #{ind} gives") =~ i }
-				matcher = inst.match(/low to (bot|output) (\d*) and high to (bot|output) (\d*)/)
-				if matcher[1] == "bot"
-					@bots[matcher[2].to_i].push(bot[0]) unless @bots[matcher[2].to_i].include?(bot[0])
-				end
-				if matcher[3] == "bot"
-					@bots[matcher[4].to_i].push(bot[1]) unless @bots[matcher[4].to_i].include?(bot[1])
-				end
-				@bots[ind] = []
+			p ind
+		end
+		if bot.length == 2
+			bot.sort!
+			inst = @instructions.find { |i| Regexp.new("bot #{ind} gives") =~ i }
+			matcher = inst.match(/low to (bot|output) (\d*) and high to (bot|output) (\d*)/)
+			if matcher[1] == "bot"
+				@bots[matcher[2].to_i].push(bot[0]) unless @bots[matcher[2].to_i].include?(bot[0])
+			else
+				@outputs[matcher[2].to_i].push(bot[0]) unless @outputs[matcher[2].to_i].include?(bot[0])
 			end
+			if matcher[3] == "bot"
+				@bots[matcher[4].to_i].push(bot[1]) unless @bots[matcher[4].to_i].include?(bot[1])
+			else
+				@outputs[matcher[4].to_i].push(bot[1]) unless @outputs[matcher[4].to_i].include?(bot[1])
+			end
+			@bots[ind] = []
 		end
 	end
+	p "output 0: #{@outputs[0]}" unless @outputs[0].empty?
+	p "output 1: #{@outputs[1]}" unless @outputs[1].empty?
+	p "output 2: #{@outputs[2]}" unless @outputs[2].empty?
 	find_bot
 end
 
 setup
 p find_bot
+
+
+p @outputs
