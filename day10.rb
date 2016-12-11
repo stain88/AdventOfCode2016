@@ -265,14 +265,13 @@ def find_bot
 			@bots[ind] = []
 		end
 	end
-	p "output 0: #{@outputs[0]}" unless @outputs[0].empty?
-	p "output 1: #{@outputs[1]}" unless @outputs[1].empty?
-	p "output 2: #{@outputs[2]}" unless @outputs[2].empty?
+	# Part 2
+	unless @outputs[0].empty? || @outputs[1].empty? || @outputs[2].empty?
+		p @outputs[0][0]*@outputs[1][0]*@outputs[2][0]
+		return
+	end
 	find_bot
 end
 
 setup
-p find_bot
-
-
-p @outputs
+find_bot
