@@ -23,7 +23,10 @@ dec c
 jnz c -5"
 
 instructions = input.split("\n")
+# Part 1
 regs = {:a => 0, :b => 0, :c => 0, :d => 0}
+# Part 2
+regs = {:a => 0, :b => 0, :c => 1, :d => 0}
 i = 0
 
 while i < instructions.length
