@@ -1,8 +1,10 @@
 input = "10011111011011001"
+
+# Part 1
 disk_length = 272
 
-# input = "110010110100"
-# disk_length = 12
+# Part 2
+disk_length = 35651584
 
 a = input
 
